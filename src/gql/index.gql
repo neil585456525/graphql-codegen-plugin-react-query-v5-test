@@ -1,16 +1,13 @@
-query allFilmsWithVariablesQuery($first: Int!) {
-  allFilms(first: $first) {
-    edges {
-      node {
-        ...FilmItem
-      }
-    }
+query GetPerson($id: ID!) {
+  person(id: $id) {
+    id
+    name
   }
 }
 
-fragment FilmItem on Film {
-  id
-  title
-  releaseDate
-  producers
+mutation CreatePerson($name: String!) {
+  createPerson(name: $name) {
+    id
+    name
+  }
 }
