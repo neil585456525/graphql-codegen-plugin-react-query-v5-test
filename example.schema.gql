@@ -3,8 +3,14 @@ type Person {
   name: String!
 }
 
+type PeopleConnection {
+  items: [Person!]!
+  nextToken: String
+}
+
 type Query {
   person(id: ID!): Person
+  people(nextToken: String): PeopleConnection
 }
 
 type Mutation {

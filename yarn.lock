@@ -1196,10 +1196,10 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@neil585456525/typescript-react-query@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@neil585456525/typescript-react-query/-/typescript-react-query-5.0.0.tgz#c8149fc657e93767172e7df84cd182ee6ea484cf"
-  integrity sha512-uEYyZ6acuW3ACRKA0bOyk8gUriR+Js2rBhODtnaGjAx+wKAnRHPWiGTgXpD5auFtEfEPK+/X5FbCzjB326uF6g==
+"@neil585456525/typescript-react-query@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@neil585456525/typescript-react-query/-/typescript-react-query-5.0.4.tgz#222a2f58b43360d0b8c18e082b97f53f1c80fc61"
+  integrity sha512-NkE7EGuHJxomggFN4ptjJgCNEcZ7ob0ip74koSJ1mYuXqLnS5pHlR4PRpJWKJhay4a/39/d83wE28zk9lLl66Q==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^3.0.0"
     "@graphql-codegen/visitor-plugin-common" "2.13.1"
@@ -1265,18 +1265,18 @@
   resolved "https://registry.yarnpkg.com/@repeaterjs/repeater/-/repeater-3.0.4.tgz#a04d63f4d1bf5540a41b01a921c9a7fddc3bd1ca"
   integrity sha512-AW8PKd6iX3vAZ0vA43nOUOnbq/X5ihgU+mSXXqunMkeQADGiqw/PY0JNeYtD5sr0PAy51YPgAPbDoeapv9r8WA==
 
-"@tanstack/query-core@4.35.3":
-  version "4.35.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.35.3.tgz#1c127e66b4ad1beeac052db83a812d7cb67369e1"
-  integrity sha512-PS+WEjd9wzKTyNjjQymvcOe1yg8f3wYc6mD+vb6CKyZAKvu4sIJwryfqfBULITKCla7P9C4l5e9RXePHvZOZeQ==
+"@tanstack/query-core@5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.0.0-rc.1.tgz#f3635fa86283c2a4eb7071abc90a7eceda9e3802"
+  integrity sha512-6jzPCwvEHS+Y3QCildpOlIrqJXXJ+v2EvbtCnbKUi6FpOrrfoSPacVB3nr0cjSBG/rCXnTB0aaevx9T8iT9CrQ==
 
-"@tanstack/react-query@^4.35.3":
-  version "4.35.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.35.3.tgz#03d726ef6a19d426166427c6539b003dd9606d1b"
-  integrity sha512-UgTPioip/rGG3EQilXfA2j4BJkhEQsR+KAbF+KIuvQ7j4MkgnTCJF01SfRpIRNtQTlEfz/+IL7+jP8WA8bFbsw==
+"@tanstack/react-query@^5.0.0-rc.1":
+  version "5.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.0.0-rc.2.tgz#a976d1c3e92fe28d017743801f50e03c2480d014"
+  integrity sha512-5NVAiJD+HlHHvA2WSTxQObgMCfNW2xNXUu+8Yx/mp3e/uip/41ejqwnpPB5V/LDG43A719JnOaQWC5wfFwjgIQ==
   dependencies:
-    "@tanstack/query-core" "4.35.3"
-    use-sync-external-store "^1.2.0"
+    "@tanstack/query-core" "5.0.0-rc.1"
+    client-only "0.0.1"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
@@ -1958,6 +1958,11 @@ cli-width@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
+
+client-only@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
+  integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
 cliui@^6.0.0:
   version "6.0.0"
@@ -3955,11 +3960,6 @@ urlpattern-polyfill@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/urlpattern-polyfill/-/urlpattern-polyfill-9.0.0.tgz#bc7e386bb12fd7898b58d1509df21d3c29ab3460"
   integrity sha512-WHN8KDQblxd32odxeIgo83rdVDE2bvdkb86it7bMhYZwWKJz0+O0RK/eZiHYnM+zgt/U7hAHOlCQGfjjvSkw2g==
-
-use-sync-external-store@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
-  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 util-deprecate@^1.0.1:
   version "1.0.2"

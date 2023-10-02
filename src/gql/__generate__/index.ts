@@ -35,6 +35,12 @@ export type MutationCreatePersonArgs = {
   name: Scalars['String']['input'];
 };
 
+export type PeopleConnection = {
+  __typename?: 'PeopleConnection';
+  items: Array<Person>;
+  nextToken?: Maybe<Scalars['String']['output']>;
+};
+
 export type Person = {
   __typename?: 'Person';
   id: Scalars['ID']['output'];
@@ -43,7 +49,13 @@ export type Person = {
 
 export type Query = {
   __typename?: 'Query';
+  people?: Maybe<PeopleConnection>;
   person?: Maybe<Person>;
+};
+
+
+export type QueryPeopleArgs = {
+  nextToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -65,6 +77,13 @@ export type CreatePersonMutationVariables = Exact<{
 
 export type CreatePersonMutation = { __typename?: 'Mutation', createPerson: { __typename?: 'Person', id: string, name: string } };
 
+export type GetPeopleQueryVariables = Exact<{
+  nextToken?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetPeopleQuery = { __typename?: 'Query', people?: { __typename?: 'PeopleConnection', nextToken?: string | null, items: Array<{ __typename?: 'Person', id: string, name: string }> } | null };
+
 
 export const GetPersonDocument = `
     query GetPerson($id: ID!) {
@@ -85,14 +104,16 @@ export const useGetPersonQuery = <
     ) =>
     useQuery<GetPersonQuery, TError, TData>(
       {
-    queryKey:['GetPerson', variables],
-    queryFn:fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers),
+    queryKey: ['GetPerson', variables],
+    queryFn: fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers),
     ...options
   }
     );
+useGetPersonQuery.document = GetPersonDocument;
+
 
 useGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson', variables];
-;
+
 
 export const useInfiniteGetPersonQuery = <
       TData = GetPersonQuery,
@@ -100,20 +121,23 @@ export const useInfiniteGetPersonQuery = <
     >(
       client: GraphQLClient,
       variables: GetPersonQueryVariables,
-      options?: UseInfiniteQueryOptions<GetPersonQuery, TError, TData>,
+      options: Omit<UseInfiniteQueryOptions<GetPersonQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetPersonQuery, TError, TData>['queryKey'] },
       headers?: RequestInit['headers']
     ) =>
     useInfiniteQuery<GetPersonQuery, TError, TData>(
-      {
-    queryKey:['GetPerson.infinite', variables],
-    queryFn:(metaData) => fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, {...variables, ...(metaData.pageParam ?? {})}, headers)(),
-    ...options
-  }
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? ['GetPerson.infinite', variables],
+      queryFn: (metaData) => fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, {...variables, ...(metaData.pageParam ?? {})}, headers)(),
+      ...restOptions
+    }
+  })()
     );
 
 
 useInfiniteGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson.infinite', variables];
-;
+
 
 useGetPersonQuery.fetcher = (client: GraphQLClient, variables: GetPersonQueryVariables, headers?: RequestInit['headers']) => fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers);
 export const CreatePersonDocument = `
@@ -134,11 +158,69 @@ export const useCreatePersonMutation = <
     ) =>
     useMutation<CreatePersonMutation, TError, CreatePersonMutationVariables, TContext>(
       {
-    mutationKey:['CreatePerson'],
-    mutationFn:(variables?: CreatePersonMutationVariables) => fetcher<CreatePersonMutation, CreatePersonMutationVariables>(client, CreatePersonDocument, variables, headers)(),
+    mutationKey: ['CreatePerson'],
+    mutationFn: (variables?: CreatePersonMutationVariables) => fetcher<CreatePersonMutation, CreatePersonMutationVariables>(client, CreatePersonDocument, variables, headers)(),
     ...options
   }
     );
 useCreatePersonMutation.getKey = () => ['CreatePerson'];
 
 useCreatePersonMutation.fetcher = (client: GraphQLClient, variables: CreatePersonMutationVariables, headers?: RequestInit['headers']) => fetcher<CreatePersonMutation, CreatePersonMutationVariables>(client, CreatePersonDocument, variables, headers);
+export const GetPeopleDocument = `
+    query GetPeople($nextToken: String) {
+  people(nextToken: $nextToken) {
+    items {
+      id
+      name
+    }
+    nextToken
+  }
+}
+    `;
+export const useGetPeopleQuery = <
+      TData = GetPeopleQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetPeopleQueryVariables,
+      options?: UseQueryOptions<GetPeopleQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetPeopleQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetPeople'] : ['GetPeople', variables],
+    queryFn: fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, variables, headers),
+    ...options
+  }
+    );
+useGetPeopleQuery.document = GetPeopleDocument;
+
+
+useGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople'] : ['GetPeople', variables];
+
+
+export const useInfiniteGetPeopleQuery = <
+      TData = GetPeopleQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPeopleQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetPeopleQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetPeopleQuery, TError, TData>['queryKey'] },
+      headers?: RequestInit['headers']
+    ) =>
+    useInfiniteQuery<GetPeopleQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetPeople.infinite'] : ['GetPeople.infinite', variables],
+      queryFn: (metaData) => fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, {...variables, ...(metaData.pageParam ?? {})}, headers)(),
+      ...restOptions
+    }
+  })()
+    );
+
+
+useInfiniteGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople.infinite'] : ['GetPeople.infinite', variables];
+
+
+useGetPeopleQuery.fetcher = (client: GraphQLClient, variables?: GetPeopleQueryVariables, headers?: RequestInit['headers']) => fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, variables, headers);

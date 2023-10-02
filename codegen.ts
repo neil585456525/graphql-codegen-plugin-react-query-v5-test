@@ -17,6 +17,7 @@ const config: CodegenConfig = {
             exposeQueryKeys: true,
             exposeMutationKeys: true,
             exposeFetcher: true,
+            exposeDocument: true,
           },
         },
       ],

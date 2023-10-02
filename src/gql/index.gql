@@ -11,3 +11,13 @@ mutation CreatePerson($name: String!) {
     name
   }
 }
+
+query GetPeople($nextToken: String) {
+  people(nextToken: $nextToken) {
+    items {
+      id
+      name
+    }
+    nextToken
+  }
+}
