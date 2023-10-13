@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery, useInfiniteQuery, useSuspenseInfiniteQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseInfiniteQueryOptions, UseSuspenseInfiniteQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -85,6 +85,7 @@ export type GetPeopleQueryVariables = Exact<{
 export type GetPeopleQuery = { __typename?: 'Query', people?: { __typename?: 'PeopleConnection', nextToken?: string | null, items: Array<{ __typename?: 'Person', id: string, name: string }> } | null };
 
 
+
 export const GetPersonDocument = `
     query GetPerson($id: ID!) {
   person(id: $id) {
@@ -93,27 +94,50 @@ export const GetPersonDocument = `
   }
 }
     `;
+
 export const useGetPersonQuery = <
       TData = GetPersonQuery,
       TError = unknown
     >(
       client: GraphQLClient,
       variables: GetPersonQueryVariables,
-      options?: UseQueryOptions<GetPersonQuery, TError, TData>,
+      options?: Omit<UseQueryOptions<GetPersonQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetPersonQuery, TError, TData>['queryKey'] },
       headers?: RequestInit['headers']
-    ) =>
-    useQuery<GetPersonQuery, TError, TData>(
+    ) => {
+    
+    return useQuery<GetPersonQuery, TError, TData>(
       {
     queryKey: ['GetPerson', variables],
     queryFn: fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers),
     ...options
   }
-    );
-useGetPersonQuery.document = GetPersonDocument;
+    )};
 
+useGetPersonQuery.document = GetPersonDocument;
 
 useGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson', variables];
 
+export const useSuspenseGetPersonQuery = <
+      TData = GetPersonQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPersonQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<GetPersonQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<GetPersonQuery, TError, TData>['queryKey'] },
+      headers?: RequestInit['headers']
+    ) => {
+    
+    return useSuspenseQuery<GetPersonQuery, TError, TData>(
+      {
+    queryKey: ['GetPersonSuspense', variables],
+    queryFn: fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers),
+    ...options
+  }
+    )};
+
+useSuspenseGetPersonQuery.document = GetPersonDocument;
+
+useSuspenseGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPersonSuspense', variables];
 
 export const useInfiniteGetPersonQuery = <
       TData = GetPersonQuery,
@@ -123,8 +147,9 @@ export const useInfiniteGetPersonQuery = <
       variables: GetPersonQueryVariables,
       options: Omit<UseInfiniteQueryOptions<GetPersonQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetPersonQuery, TError, TData>['queryKey'] },
       headers?: RequestInit['headers']
-    ) =>
-    useInfiniteQuery<GetPersonQuery, TError, TData>(
+    ) => {
+    
+    return useInfiniteQuery<GetPersonQuery, TError, TData>(
       (() => {
     const { queryKey: optionsQueryKey, ...restOptions } = options;
     return {
@@ -133,13 +158,36 @@ export const useInfiniteGetPersonQuery = <
       ...restOptions
     }
   })()
-    );
-
+    )};
 
 useInfiniteGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson.infinite', variables];
 
+export const useSuspenseInfiniteGetPersonQuery = <
+      TData = GetPersonQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPersonQueryVariables,
+      options: Omit<UseSuspenseInfiniteQueryOptions<GetPersonQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseInfiniteQueryOptions<GetPersonQuery, TError, TData>['queryKey'] },
+      headers?: RequestInit['headers']
+    ) => {
+    
+    return useSuspenseInfiniteQuery<GetPersonQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? ['GetPerson.infiniteSuspense', variables],
+      queryFn: (metaData) => fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, {...variables, ...(metaData.pageParam ?? {})}, headers)(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useSuspenseInfiniteGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson.infiniteSuspense', variables];
+
 
 useGetPersonQuery.fetcher = (client: GraphQLClient, variables: GetPersonQueryVariables, headers?: RequestInit['headers']) => fetcher<GetPersonQuery, GetPersonQueryVariables>(client, GetPersonDocument, variables, headers);
+
 export const CreatePersonDocument = `
     mutation CreatePerson($name: String!) {
   createPerson(name: $name) {
@@ -148,6 +196,7 @@ export const CreatePersonDocument = `
   }
 }
     `;
+
 export const useCreatePersonMutation = <
       TError = unknown,
       TContext = unknown
@@ -155,17 +204,21 @@ export const useCreatePersonMutation = <
       client: GraphQLClient,
       options?: UseMutationOptions<CreatePersonMutation, TError, CreatePersonMutationVariables, TContext>,
       headers?: RequestInit['headers']
-    ) =>
-    useMutation<CreatePersonMutation, TError, CreatePersonMutationVariables, TContext>(
+    ) => {
+    
+    return useMutation<CreatePersonMutation, TError, CreatePersonMutationVariables, TContext>(
       {
     mutationKey: ['CreatePerson'],
     mutationFn: (variables?: CreatePersonMutationVariables) => fetcher<CreatePersonMutation, CreatePersonMutationVariables>(client, CreatePersonDocument, variables, headers)(),
     ...options
   }
-    );
+    )};
+
 useCreatePersonMutation.getKey = () => ['CreatePerson'];
 
+
 useCreatePersonMutation.fetcher = (client: GraphQLClient, variables: CreatePersonMutationVariables, headers?: RequestInit['headers']) => fetcher<CreatePersonMutation, CreatePersonMutationVariables>(client, CreatePersonDocument, variables, headers);
+
 export const GetPeopleDocument = `
     query GetPeople($nextToken: String) {
   people(nextToken: $nextToken) {
@@ -177,27 +230,50 @@ export const GetPeopleDocument = `
   }
 }
     `;
+
 export const useGetPeopleQuery = <
       TData = GetPeopleQuery,
       TError = unknown
     >(
       client: GraphQLClient,
       variables?: GetPeopleQueryVariables,
-      options?: UseQueryOptions<GetPeopleQuery, TError, TData>,
+      options?: Omit<UseQueryOptions<GetPeopleQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetPeopleQuery, TError, TData>['queryKey'] },
       headers?: RequestInit['headers']
-    ) =>
-    useQuery<GetPeopleQuery, TError, TData>(
+    ) => {
+    
+    return useQuery<GetPeopleQuery, TError, TData>(
       {
     queryKey: variables === undefined ? ['GetPeople'] : ['GetPeople', variables],
     queryFn: fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, variables, headers),
     ...options
   }
-    );
-useGetPeopleQuery.document = GetPeopleDocument;
+    )};
 
+useGetPeopleQuery.document = GetPeopleDocument;
 
 useGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople'] : ['GetPeople', variables];
 
+export const useSuspenseGetPeopleQuery = <
+      TData = GetPeopleQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetPeopleQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<GetPeopleQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<GetPeopleQuery, TError, TData>['queryKey'] },
+      headers?: RequestInit['headers']
+    ) => {
+    
+    return useSuspenseQuery<GetPeopleQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetPeopleSuspense'] : ['GetPeopleSuspense', variables],
+    queryFn: fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, variables, headers),
+    ...options
+  }
+    )};
+
+useSuspenseGetPeopleQuery.document = GetPeopleDocument;
+
+useSuspenseGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeopleSuspense'] : ['GetPeopleSuspense', variables];
 
 export const useInfiniteGetPeopleQuery = <
       TData = GetPeopleQuery,
@@ -207,8 +283,9 @@ export const useInfiniteGetPeopleQuery = <
       variables: GetPeopleQueryVariables,
       options: Omit<UseInfiniteQueryOptions<GetPeopleQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetPeopleQuery, TError, TData>['queryKey'] },
       headers?: RequestInit['headers']
-    ) =>
-    useInfiniteQuery<GetPeopleQuery, TError, TData>(
+    ) => {
+    
+    return useInfiniteQuery<GetPeopleQuery, TError, TData>(
       (() => {
     const { queryKey: optionsQueryKey, ...restOptions } = options;
     return {
@@ -217,10 +294,32 @@ export const useInfiniteGetPeopleQuery = <
       ...restOptions
     }
   })()
-    );
-
+    )};
 
 useInfiniteGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople.infinite'] : ['GetPeople.infinite', variables];
+
+export const useSuspenseInfiniteGetPeopleQuery = <
+      TData = GetPeopleQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPeopleQueryVariables,
+      options: Omit<UseSuspenseInfiniteQueryOptions<GetPeopleQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseInfiniteQueryOptions<GetPeopleQuery, TError, TData>['queryKey'] },
+      headers?: RequestInit['headers']
+    ) => {
+    
+    return useSuspenseInfiniteQuery<GetPeopleQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetPeople.infiniteSuspense'] : ['GetPeople.infiniteSuspense', variables],
+      queryFn: (metaData) => fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, {...variables, ...(metaData.pageParam ?? {})}, headers)(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useSuspenseInfiniteGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople.infiniteSuspense'] : ['GetPeople.infiniteSuspense', variables];
 
 
 useGetPeopleQuery.fetcher = (client: GraphQLClient, variables?: GetPeopleQueryVariables, headers?: RequestInit['headers']) => fetcher<GetPeopleQuery, GetPeopleQueryVariables>(client, GetPeopleDocument, variables, headers);

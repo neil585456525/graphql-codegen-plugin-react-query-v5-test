@@ -1196,10 +1196,10 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@neil585456525/typescript-react-query@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@neil585456525/typescript-react-query/-/typescript-react-query-5.0.4.tgz#222a2f58b43360d0b8c18e082b97f53f1c80fc61"
-  integrity sha512-NkE7EGuHJxomggFN4ptjJgCNEcZ7ob0ip74koSJ1mYuXqLnS5pHlR4PRpJWKJhay4a/39/d83wE28zk9lLl66Q==
+"@neil585456525/typescript-react-query@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@neil585456525/typescript-react-query/-/typescript-react-query-5.0.8.tgz#a7146142e7c6002a770ee71b05d89eac95f24071"
+  integrity sha512-6uAlSJOUg3hVHc7hNlm6/Ot+mlY5S5xcAF9jU32o/OOliVNMFuMFwms8l8uTKD+Bp9Zb6TwC4KzHkbQr1aWPVQ==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^3.0.0"
     "@graphql-codegen/visitor-plugin-common" "2.13.1"

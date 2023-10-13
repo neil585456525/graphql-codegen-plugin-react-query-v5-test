@@ -18,9 +18,13 @@ function App() {
 }
 
 function Content() {
-  const { data, isLoading } = useGetPersonQuery(graphqlClient, {
-    id: "1",
-  });
+  const { data, isLoading } = useGetPersonQuery(
+    graphqlClient,
+    {
+      id: "1",
+    },
+    { retryOnMount: false }
+  );
 
   const { data: createdData, mutate } = useCreatePersonMutation(
     graphqlClient,

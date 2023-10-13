@@ -13,6 +13,7 @@ const config: CodegenConfig = {
           "@neil585456525/typescript-react-query": {
             fetcher: "graphql-request",
             addInfiniteQuery: true,
+            addSuspenseQuery: true,
             reactQueryVersion: 5,
             exposeQueryKeys: true,
             exposeMutationKeys: true,
