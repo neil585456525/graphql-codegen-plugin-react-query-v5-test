@@ -4,6 +4,8 @@ import {
   useGetPersonQuery,
   useCreatePersonMutation,
   useInfiniteGetPeopleQuery,
+  useSuspenseGetPersonQuery,
+  useSuspenseInfiniteGetPeopleQuery,
 } from "./gql/__generate__";
 
 const queryClient = new QueryClient();
@@ -51,6 +53,28 @@ function Content() {
     }
   );
 
+  const { data: suspenseData } = useSuspenseGetPersonQuery(
+    graphqlClient,
+    {
+      id: "1",
+    },
+    { retryOnMount: false }
+  );
+
+  const { data: suspenseInfiniteData } = useSuspenseInfiniteGetPeopleQuery(
+    graphqlClient,
+    { nextToken: "" },
+    {
+      initialPageParam: "",
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.people?.nextToken) return null;
+        return {
+          nextToken: lastPage.people?.nextToken,
+        };
+      },
+    }
+  );
+
   return (
     <>
       <h3>Query</h3>
@@ -72,6 +96,18 @@ function Content() {
       {hasNextPage && (
         <button onClick={async () => fetchNextPage()}>get next page</button>
       )}
+      <br />
+      <h3>Suspense Query</h3>
+      <pre>
+        {suspenseData && "suspenseData: " + JSON.stringify(suspenseData)}
+      </pre>
+      <br />
+      <h3>Suspense Infinite Query</h3>
+      <pre>
+        {suspenseInfiniteData &&
+          "suspenseInfiniteData: " +
+            JSON.stringify(suspenseInfiniteData, null, 2)}
+      </pre>
     </>
   );
 }
