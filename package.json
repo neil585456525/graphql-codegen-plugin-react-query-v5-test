@@ -20,7 +20,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
-    "@neil585456525/typescript-react-query": "^5.0.8",
+    "@neil585456525/typescript-react-query": "^5.0.10",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

@@ -50,6 +50,7 @@ function Content() {
           nextToken: lastPage.people?.nextToken,
         };
       },
+      select: (data) => data.pages.map((page) => page.people),
     }
   );
 
@@ -72,6 +73,7 @@ function Content() {
           nextToken: lastPage.people?.nextToken,
         };
       },
+      select: (data) => data.pages.map((page) => page.people),
     }
   );
 

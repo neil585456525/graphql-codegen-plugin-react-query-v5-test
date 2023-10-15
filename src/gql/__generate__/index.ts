@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, useSuspenseQuery, useInfiniteQuery, useSuspenseInfiniteQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseInfiniteQueryOptions, UseSuspenseInfiniteQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery, useInfiniteQuery, useSuspenseInfiniteQuery, useMutation, UseQueryOptions, UseSuspenseQueryOptions, UseInfiniteQueryOptions, InfiniteData, UseSuspenseInfiniteQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -140,7 +140,7 @@ useSuspenseGetPersonQuery.document = GetPersonDocument;
 useSuspenseGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPersonSuspense', variables];
 
 export const useInfiniteGetPersonQuery = <
-      TData = GetPersonQuery,
+      TData = InfiniteData<GetPersonQuery>,
       TError = unknown
     >(
       client: GraphQLClient,
@@ -163,7 +163,7 @@ export const useInfiniteGetPersonQuery = <
 useInfiniteGetPersonQuery.getKey = (variables: GetPersonQueryVariables) => ['GetPerson.infinite', variables];
 
 export const useSuspenseInfiniteGetPersonQuery = <
-      TData = GetPersonQuery,
+      TData = InfiniteData<GetPersonQuery>,
       TError = unknown
     >(
       client: GraphQLClient,
@@ -276,7 +276,7 @@ useSuspenseGetPeopleQuery.document = GetPeopleDocument;
 useSuspenseGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeopleSuspense'] : ['GetPeopleSuspense', variables];
 
 export const useInfiniteGetPeopleQuery = <
-      TData = GetPeopleQuery,
+      TData = InfiniteData<GetPeopleQuery>,
       TError = unknown
     >(
       client: GraphQLClient,
@@ -299,7 +299,7 @@ export const useInfiniteGetPeopleQuery = <
 useInfiniteGetPeopleQuery.getKey = (variables?: GetPeopleQueryVariables) => variables === undefined ? ['GetPeople.infinite'] : ['GetPeople.infinite', variables];
 
 export const useSuspenseInfiniteGetPeopleQuery = <
-      TData = GetPeopleQuery,
+      TData = InfiniteData<GetPeopleQuery>,
       TError = unknown
     >(
       client: GraphQLClient,
